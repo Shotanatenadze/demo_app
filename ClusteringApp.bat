@@ -1,0 +1,13 @@
+@echo off
+echo Starting Streamlit Application...
+
+cd /d "D:\AutomaticClustering"
+
+echo Activating virtual environment...
+call d:/AutomaticClustering/auto_cluster_env/Scripts/Activate.bat
+
+echo Opening the application in Google Chrome...
+start chrome "http://localhost:8501" 
+
+echo Running Streamlit app...
+streamlit run app_new.py
