@@ -42,8 +42,8 @@ from datetime import datetime, timedelta
 df_init = pd.read_csv("Updated_Bank_Customer_Data.csv")
 
 # Preprocess data to remove NaNs
-df_init['IS_INT_BNK_USER'] = np.where(df_init['IS_INT_BNK_USER'] == '1', 1, np.float32(0))
-df_init['IS_MOB_BNK_USER'] = np.where(df_init['IS_INT_BNK_USER'] == '1', 1, np.float32(0))
+# df_init['IS_INT_BNK_USER'] = np.where(df_init['IS_INT_BNK_USER'] == '1', 1, np.float32(0))
+# df_init['IS_MOB_BNK_USER'] = np.where(df_init['IS_INT_BNK_USER'] == '1', 1, np.float32(0))
 df_init['PREF_CITY'] = df_init['PREF_CITY'].fillna("Undefined")
 df_init['PAYROLL_TP'] = df_init['PAYROLL_TP'].fillna("Undefined")
 df_init['SOC_SEG'] = df_init['SOC_SEG'].fillna("Undefined")
@@ -143,13 +143,13 @@ def main():
         var_social = st.multiselect("", options=['SOB', 'ELB', 'DEV', 'Undefined', 'DZA', 'UMW', 'CHLD', 'COV'], key ='8')
         print("Filtering by social segment finished")
         #
-        st.markdown('<h3 style="font-size: 20px;">Choose WHETHER CLIENT IS INT BANK USER</h3>', unsafe_allow_html=True)
-        var_int_bnk = st.multiselect("", options=[0.0, 1.0],  key ='9')
-        print("Filtering by internet bank usage finished")
+        # st.markdown('<h3 style="font-size: 20px;">Choose WHETHER CLIENT IS INT BANK USER</h3>', unsafe_allow_html=True)
+        # var_int_bnk = st.multiselect("", options=[0.0, 1.0],  key ='9')
+        # print("Filtering by internet bank usage finished")
         #
-        st.markdown('<h3 style="font-size: 20px;">Choose WHETHER CLIENT IS MOB BANK USER</h3>', unsafe_allow_html=True)
-        var_mob_bnk = st.multiselect("", options=[0.0, 1.0],  key ='10')
-        print("Filtering by mobile bank usage finished")
+        # st.markdown('<h3 style="font-size: 20px;">Choose WHETHER CLIENT IS MOB BANK USER</h3>', unsafe_allow_html=True)
+        # var_mob_bnk = st.multiselect("", options=[0.0, 1.0],  key ='10')
+        # print("Filtering by mobile bank usage finished")
         #
         st.markdown('<h3 style="font-size: 20px;">Choose a range of AVERAGE TRANSACTION COUNT IN MB&INT BANKS</h3>', unsafe_allow_html=True)
         var_mb_trn_cnt = st.slider("", min_value=0.0, max_value=1500.0, value=(0.0, 0.0),  step=1.0, key ='11')
@@ -168,7 +168,7 @@ def main():
 
         # st.cache_data defines a decorator that caches filtered data given choice of filter values
         @st.cache_data
-        def generate_df(df, var_age, var_income, var_gender, var_city, var_residency, var_payroll, var_social, var_int_bnk, var_mob_bnk, \
+        def generate_df(df, var_age, var_income, var_gender, var_city, var_residency, var_payroll, var_social, \
             var_mb_trn_cnt, var_pos_trn_cnt, var_atm_trn_cnt):
 
             # age
@@ -232,20 +232,20 @@ def main():
             print(df.shape)
 
             #9 int bank
-            if len(list(var_int_bnk)) == 0:
-                pass
-            else: 
-                df = df[df['IS_INT_BNK_USER'].isin(var_int_bnk)]
-            print('dataframe shape after INT BANK filtering')
-            print(df.shape)
+            # if len(list(var_int_bnk)) == 0:
+            #     pass
+            # else: 
+            #     df = df[df['IS_INT_BNK_USER'].isin(var_int_bnk)]
+            # print('dataframe shape after INT BANK filtering')
+            # print(df.shape)
 
             #10 mob bank
-            if len(var_mob_bnk) == 0:
-                pass
-            else:
-                df = df[df['IS_MOB_BNK_USER'].isin(var_mob_bnk)]
-            print('dataframe shape after MOB BANK filtering')
-            print(df.shape)
+            # if len(var_mob_bnk) == 0:
+            #     pass
+            # else:
+            #     df = df[df['IS_MOB_BNK_USER'].isin(var_mob_bnk)]
+            # print('dataframe shape after MOB BANK filtering')
+            # print(df.shape)
 
             #11 mb_ib trn cnt
             if var_mb_trn_cnt == (0.0, 0.0):
@@ -273,7 +273,7 @@ def main():
             return df
 
         # Generate filtered dataframe
-        df=generate_df(df_init, var_age, var_income, var_gender, var_city, var_residency, var_payroll, var_social, var_int_bnk, var_mob_bnk, \
+        df=generate_df(df_init, var_age, var_income, var_gender, var_city, var_residency, var_payroll, var_social, \
             var_mb_trn_cnt, var_pos_trn_cnt, var_atm_trn_cnt)
 
         # Save filtered dataframe
