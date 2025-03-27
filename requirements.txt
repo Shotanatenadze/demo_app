@@ -8,3 +8,4 @@ tqdm
 jupyter
 altair
 openpyxl
+plotly
